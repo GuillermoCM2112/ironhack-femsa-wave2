@@ -1,0 +1,532 @@
+openapi: 3.0.0
+servers:
+  - description: E-commerce system
+    url: https://virtserver.swaggerhub.com/GUILLERMOCOBA_1/e-commerce-system/1.0.0
+info:
+  description: This is a simple to e-commerce
+  version: "1.0.0"
+  title:  E-commerce API
+  contact:
+    email: guillermo.coba@digitalfemsa.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: users
+    description: Contains operations and data management capabilities related to user accounts.
+  - name: orders
+    description: Manages processes and data related to order creation, tracking, updates, and fulfillment.
+
+  - name: tickets
+    description: Manages customer support tickets, feedback, and service requests.
+paths:
+  /users:
+    get:
+      tags:
+      - users
+      summary: Get all users
+      description: Returns a list of all users.
+      responses:
+        '200':
+          description: List of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '500':
+          description: Server Internal Error
+    post:
+      tags:
+      - users
+      summary: Create a new user
+      description: Creates a new user in the system.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInput'
+      responses:
+        '201':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '500':
+          description: Server Internal Error
+
+
+  /users/{userId}:
+    get:
+      tags:
+      - users
+      summary: Get a user by ID
+      description: Returns a single user based on their ID.
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: User found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: User not found
+        '500':
+          description: Server Internal Error
+    put:
+      tags:
+      - users
+      summary: Update a user
+      description: Updates an existing user's information.
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInput'
+      responses:
+        '204':
+          description: User updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: User not found
+        '500':
+          description: Server Internal Error
+    delete:
+      tags:
+      - users
+      summary: Delete a user
+      description: Deletes a user based on their ID.
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: User deleted successfully
+        '404':
+          description: User not found
+        '500':
+          description: Server Internal Error
+  /orders:
+    get:
+      tags:
+      - orders
+      summary: Get all orders
+      description: Returns a list of all orders.
+      responses:
+        '200':
+          description: List of orders
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order'
+        '500':
+          description: Server Internal Error
+    post:
+      tags:
+      - orders
+      summary: Create a new order
+      description: Creates a new order in the system.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderInput'
+      responses:
+        '201':
+          description: Order created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '500':
+          description: Server Internal Error
+
+  /orders/{orderId}:
+    get:
+      tags:
+      - orders
+      summary: Get an order by ID
+      description: Returns a single order based on its ID.
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Order found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '404':
+          description: Order not found
+        '500':
+          description: Server Internal Error
+    put:
+      tags:
+      - orders
+      summary: Update an order
+      description: Updates an existing order's details.
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderInput'
+      responses:
+        '204':
+          description: Order updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '404':
+          description: Order not found
+        '500':
+          description: Server Internal Error
+    delete:
+      tags:
+      - orders
+      summary: Delete an order
+      description: Deletes an order based on its ID.
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Order deleted successfully
+        '404':
+          description: Order not found
+        '500':
+          description: Server Internal Error
+  /tickets:
+    get:
+      tags:
+      - tickets
+      summary: Get all tickets
+      description: Retrieves a list of all customer support tickets and feedback.
+      responses:
+        '200':
+          description: List of tickets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ticket'
+        '500':
+          description: Server Internal Error
+
+    post:
+      tags:
+      - tickets
+      summary: Create a new ticket
+      description: Creates a new support ticket or feedback for a customer.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketInput'
+      responses:
+        '201':
+          description: Ticket created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ticket'
+        '500':
+          description: Server Internal Error
+
+  /tickets/{ticketId}:
+    get:
+      tags:
+      - tickets
+      summary: Get ticket by ID
+      description: Retrieves a specific ticket based on its ticket ID.
+      parameters:
+        - name: ticketId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Ticket found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ticket'
+        '404':
+          description: Ticket not found
+        '500':
+          description: Server Internal Error
+
+    put:
+      tags:
+      - tickets
+      summary: Update a ticket
+      description: Updates the details of a customer support ticket or feedback.
+      parameters:
+        - name: ticketId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketInput'
+      responses:
+        '200':
+          description: Ticket updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ticket'
+        '404':
+          description: Ticket not found
+        '500':
+          description: Server Internal Error
+
+    delete:
+      tags:
+      - tickets
+      summary: Delete a ticket
+      description: Deletes a customer support ticket or feedback.
+      parameters:
+        - name: ticketId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Ticket deleted successfully
+        '404':
+          description: Ticket not found
+        '500':
+          description: Server Internal Error
+
+  /tickets/{ticketId}/status:
+    patch:
+      tags:
+      - tickets
+      summary: Update ticket status
+      description: Updates the status of a ticket (e.g., resolving or closing a support ticket).
+      parameters:
+        - name: ticketId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketStatusInput'
+      responses:
+        '200':
+          description: Ticket status updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ticket'
+        '500':
+          description: Server Internal Error
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        username:
+          type: string
+          example: johndoe
+        name:
+          type: string
+          example: John Doe
+        email:
+          type: string
+          example: johndoe@example.com
+        password:
+          type: string
+          format: password
+          example: securePassword123
+        createdAt:
+          type: string
+          format: date-time
+          example: '2024-11-12T10:00:00Z'
+        updatedAt:
+          type: string
+          format: date-time
+          example: '2024-11-12T10:00:00Z'
+    UserInput:
+      type: object
+      properties:
+        username:
+          type: string
+          example: johndoe
+        name:
+          type: string
+          example: John Doe
+        email:
+          type: string
+          example: johndoe@example.com
+        password:
+          type: string
+          format: password
+          example: securePassword123
+      required:
+        - username
+        - name
+        - email
+        - password
+    Order:
+      type: object
+      properties:
+        orderId:
+          type: integer
+          example: 1001
+        customerId:
+          type: integer
+          example: 501
+        orderDate:
+          type: string
+          format: date-time
+          example: '2024-11-12T14:00:00Z'
+        status:
+          type: string
+          enum: [pending, completed, canceled, refunded]
+          example: 'pending'
+        totalAmount:
+          type: number
+          format: float
+          example: 199.99
+    OrderInput:
+      type: object
+      properties:
+        customerId:
+          type: integer
+          example: 501
+        orderDate:
+          type: string
+          format: date-time
+          example: '2024-11-12T14:00:00Z'
+        status:
+          type: string
+          enum: [pending, completed, canceled, refunded]
+          example: 'pending'
+        totalAmount:
+          type: number
+          format: float
+          example: 199.99
+      required:
+        - customerId
+        - orderDate
+        - status
+        - totalAmount
+    Ticket:
+      type: object
+      properties:
+        ticketId:
+          type: integer
+          example: 1
+        customerId:
+          type: integer
+          example: 101
+        type:
+          type: string
+          enum: [support_ticket, feedback]
+          example: support_ticket
+        status:
+          type: string
+          enum: [open, resolved, closed, pending]
+          example: open
+        createdAt:
+          type: string
+          format: date-time
+          example: '2024-11-12T10:00:00Z'
+        updatedAt:
+          type: string
+          format: date-time
+          example: '2024-11-12T11:00:00Z'
+        description:
+          type: string
+          example: 'Issue with login system not working properly.'
+        customerFeedback:
+          type: string
+          example: 'Great service overall, but the login system needs fixing.'
+
+    TicketInput:
+      type: object
+      properties:
+        customerId:
+          type: integer
+          example: 101
+        type:
+          type: string
+          enum: [support_ticket, feedback]
+          example: support_ticket
+        description:
+          type: string
+          example: 'Issue with login system.'
+        customerFeedback:
+          type: string
+          example: 'Great service, but needs improvement.'
+      required:
+        - customerId
+        - type
+        - description
+
+    TicketStatusInput:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [open, resolved, closed, pending]
+          example: resolved
+      required:
+        - status
